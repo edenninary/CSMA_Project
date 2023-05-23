@@ -17,3 +17,5 @@ General notes and questions about the chacha mmodule:
 4. Parameters. are they critical?
 
 5. Implement the loop
+
+6.
