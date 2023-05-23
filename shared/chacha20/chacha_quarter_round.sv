@@ -12,10 +12,10 @@ module chacha_quarter_round #(parameter WIDTH)
 	input  logic [WIDTH-1:0] b_in,
 	input  logic [WIDTH-1:0] c_in,
 	input  logic [WIDTH-1:0] d_in,
-	output logic [WIDTH-1:0] a_in,
-	output logic [WIDTH-1:0] b_in,
-	output logic [WIDTH-1:0] c_in,
-	output logic [WIDTH-1:0] d_in
+	output logic [WIDTH-1:0] a_out,
+	output logic [WIDTH-1:0] b_out,
+	output logic [WIDTH-1:0] c_out,
+	output logic [WIDTH-1:0] d_out
 	
 );
 	//local signals
@@ -55,14 +55,24 @@ module chacha_quarter_round #(parameter WIDTH)
 	
 	//logical row 2
 	//a += b; d ^= a; d <<< 8;
-	assign temp_a2 = a_temp1 + b_temp1;
-	assign temp_b2 = b_temp1;
-	assign temp_c2 = c_temp1;
-	assign temp_d2 = d_temp1 ^ a_temp1;
-	assign temp_d2 = {d_temp1[23:0], d_temp1[31:24]};
+	assign a_temp2 = a_temp1 + b_temp1;
+	assign b_temp2 = b_temp1;
+	assign c_temp2 = c_temp1;
+	assign d_temp2 = d_temp1 ^ a_temp1;
+	assign d_temp2 = {d_temp1[23:0], d_temp1[31:24]};
 	
 	//logical row 3
 	//c += d; b ^= c; b <<<= 7;
-	
+	assign a_temp3 = a_temp2;
+	assign c_temp3 = c_temp2 + d_temp2;
+	assign b_temp3 = b_temp2 ^ c_temp3;
+	assign b_temp3 = {b_temp3[25:0], b_temp3[31:25]};
+	assign d_temp3 = d_temp2;
+
+	//output
+	assign a_out = a_temp3;
+	assign b_out = b_temp3;
+	assign c_out = c_temp3;
+	assign d_out = d_temp3;
 
 endmodule
