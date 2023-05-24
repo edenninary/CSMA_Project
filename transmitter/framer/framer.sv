@@ -13,14 +13,14 @@ module framer
     input  logic         start,
     input  logic         reset,
     input  logic [31:0]  timestamp,
-    input  logic [7:0]   length,
-    input  logic [215:0] message,
-    output logic [255:0] framed_message,
-    output logic [255:0] modified_framed_message
+    input  logic [8:0]   length,
+    input  logic [473:0] message,
+    output logic [511:0] framed_message,
+    output logic [511:0] modified_framed_message
 );
   
-    logic [255:0] framed_message_reg;
-    logic [255:0] modified_framed_message_reg;
+    logic [511:0] framed_message_reg;
+    logic [511:0] modified_framed_message_reg;
 
     always @(posedge start or posedge reset) begin
         if(reset)begin

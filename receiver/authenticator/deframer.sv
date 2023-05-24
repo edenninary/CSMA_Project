@@ -9,15 +9,15 @@ module VerifyMessage
 (
     input  logic         start,
     input  logic         reset,
-    input  logic [255:0] message,
-    input  logic [255:0] modified_message,
+    input  logic [511:0] message,
+    input  logic [511:0] modified_message,
     input  logic [31:0]  timestamp,
     input  logic [9:0]   threshold,
-    output logic [223:0] verified_message,
+    output logic [473:0] verified_message,
     output logic         valid
 );
 
-    logic [223:0] verified_message_reg;
+    logic [473:0] verified_message_reg;
     logic valid_reg;
 
     always @(posedge start or posedge reset) begin
@@ -28,9 +28,9 @@ module VerifyMessage
         else begin
             // Check if message + 1 equals message
             if ((message + 1 == message)                    && 
-                (message[255:224] >= timestamp - threshold) && 
-                (message[255:224] <= timestamp + threshold)) begin
-                verified_message_reg = message[255:40];
+                (message[511:224] >= timestamp - threshold) && 
+                (message[511:224] <= timestamp + threshold)) begin
+                verified_message_reg = message[511:40];
                 valid_reg = 1;
             end
             else begin
